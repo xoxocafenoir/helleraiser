@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+        Created for Helleraiser Magazine by: Cafe Neo Noir
+        -->
+        <link rel="shortcut icon" href="{Favicon}" />
+        <link rel="alternate" type="application/rss+xml" href="{RSS}"/>
+        {block:Description}
+        <meta name="description" content="{MetaDescription}" />
+        {/block:Description}
+        
+        <title>
+            {Title}
+            {block:SearchPage}: {lang:Search results for SearchQuery}{/block:SearchPage}
+            {block:PostSummary}: {PostSummary}{/block:PostSummary}
+            {block:TagPage}: {Tag}{/block:TagPage} 
+        </title>
+        
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
+        
+        <meta name="text:Title font" content="Baskerville"/>
+        <meta name="text:Content font" content="Ek Mukta"/>
+        <meta name="color:Font color" content="#222222"/>
+        
+        <meta name="if:Show pages" content="1"/>
+        <meta name="if:Show caption" content="1"/>
+        <meta name="if:Show notes" content="1"/>
+        
+        <meta name="text:Google analytics ID" content=""/>
+        <meta name="text:Copyright" content="Something about the site author"/>
+        
+        <meta name="if:Show social icons" content="1"/>
+        <meta name="text:Facebook ID" content=""/>
+        <meta name="text:Twitter ID" content=""/>
+        <meta name="text:Instagram ID" content=""/>
+        <meta name="text:Pinterest ID" content=""/>
+        <meta name="text:Linkedin ID" content=""/>
+        <meta name="text:Vimeo ID" content=""/>
+        <meta name="text:Behance ID" content=""/>
+        <meta name="text:Dribbble ID" content=""/>
+        
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+        <script src="//static.tumblr.com/s4jebcl/7Ienjuwzs/jquery-1.11.2.min.js"></script>
+        
+        <!--google fonts-->
+        <link href='https://fonts.googleapis.com/css?family=Ek+Mukta:600' rel='stylesheet' type='text/css'>
+        
+        <style>
+        /***********General Styling ***********/
+        * {margin:0px 0px; padding:0px 0px;}
+        a{
+            color:{color:Font color};
+            text-decoration:none;
+        }
+        a:hover{
+            text-decoration:none;
+            color:{AccentColor};
+        }
+        .clearFix{
+            clear:both;
+        }
+        body{
+			background: {BackgroundColor};
+			background: linear-gradient(90deg, {BackgroundColor} 28%, rgba(255,255,255,1) 28%, rgba(255,255,255,1) 100%);
+            color:{color:Font color};
+            font-family:'{text:Content font}',Sans-Serif;
+            font-size:12px;
+        }
+        header{
+            left:7vw;
+            width:85.7vw;
+            height:20vh;
+        }
+        header.index{
+            top:10vh;
+            position:fixed;
+        }
+        header.permalink{
+            margin-top:10vh;
+            position:relative;
+        }
+        footer{
+            left:7vw;
+            width:85.7vw;
+            vertical-align:top;
+        }
+        footer.index{
+            position:fixed;
+            top:90vh;
+        }
+        footer.permalink{
+            margin-top:3vh;
+            position:relative;
+            padding-bottom:4vh;
+        }
+        main.index{
+            top:32vh;
+            left:7vw;
+            height:54vh;
+            position:absolute;
+            white-space:nowrap;
+        }
+        main.permalink{
+            position:relative;
+        }
+        
+        /***********header***********/
+		#accentbar{
+			background-color:#ed70aa;
+			float:left;
+			width:80px;
+		}
+        #title{
+            float:left;
+            vertical-align:top;
+            line-height:3em;
+            font-family:'{text:Title font}',Serif;
+            width:30vw;
+        }
+        #title a{
+            font-size:3em;
+            font-weight:bold;
+            margin-right: 0.3em;
+        }
+        a#tagTitle{
+            font-size: 1.1em;
+            font-family:'{text:Content font}',Sans-Serif;
+        }
+        #pages{
+            float:right;
+            text-align:right;
+            list-style-type:none;
+            width:45vw;
+            margin-top:1.8em;
+            font-size:1.1em;
+        }
+        #pages li{
+            display:inline-block;
+            margin-left:0.6em;
+            margin-bottom:1em;
+            padding-right:0.6em;
+            line-height:0.2em;
+            border-right:2px solid {color:Font color};
+        }
+        #pages li:last-child{
+            padding-right:0;
+            border-right:none;
+        }
+        
+        /***********footer***********/
+        footer{
+            min-width:44em;
+            font-size:0.9em;
+        }
+        footer .left{
+            float:left;
+            width:57.5vw;
+            min-width:28em;
+            margin-bottom:0.7em;
+            line-height:1.4em;
+        }
+        #copyright{
+            margin-top:0.2em;
+            opacity:0.4;
+        }
+        #social{
+            width:14.5em;
+            text-align:right;
+            float:right;
+            list-style-type:none;
+        }
+        #social li{
+            display:inline;
+            margin-left:0.4em;
+            font-size:1.2em;
+        }
+        
+        /*********** tabs ***********/
+        .tab{
+            position:fixed;
+            height:100vh;
+            width:2.5em;
+            z-index:20;
+            cursor:pointer;
+        }
+        .tab.left{
+            left:0;
+        }
+        .tab.right{
+            right:0;
+            text-align:right;
+        }
+        .tab > div{
+            background-color:rgba(0,0,0,0.1);
+            display:none;
+            height:100vh;
+        }
+        .tab i{
+            margin-top:50vh;
+            font-size:1.7em;
+            color:#999;
+        }
+        .tab.left > div > i{
+            margin-left:0.45em;
+        }
+        .tab.right > div > i{
+            margin-right:0.45em;
+        }
+        
+        /***********posts***********/
+        article.index{
+            height:54vh;
+            display:inline-block;
+            vertical-align:top;
+            overflow-y:hidden;
+            white-space:normal;
+            margin:0 2em; /*for post types other than photo*/
+        }
+        article.index:first-child{
+            margin-left:0;
+        }
+        article.index:last-child{
+            margin-right:7vw;
+        }
+        article.index.photo{
+            margin:0;/*for photo posts*/
+        }
+        article.index.text,article.index.quote,article.index.link,article.index.chat,article.index.answer{
+            max-width:28vw;
+            min-width:21em;
+        }
+        article.permalink{
+            float:left;
+            margin-left:7vw;
+            width:60vw;
+            min-width:250px;
+        }
+        
+        /*********** media posts ***********/
+        .index.photo .content img{
+            max-height:54vh;
+            vertical-align:top;
+        }
+        .index.photo .content a{
+            margin-right:1.2em;
+        }
+        .mask{
+            position:absolute;
+            margin-right:4em;
+            max-width:21em;/*250px*/
+            bottom:0;
+            z-index:10;
+            color:white;
+            background: rgba(0,0,0,0.2);
+            padding:1vh 2.5vw;
+            line-height: 1.5em;
+            font-size:0.8em;
+        }
+        .mask a{
+            color:white;
+        }
+        .mask a:hover{
+            color:{AccentColor};
+        }
+        .permalink.photo .content img{
+            max-width:65vw;
+            min-width:250px;
+        }
+        .permalink.photo .content a{
+            display:block;
+            margin-bottom:2vh;
+        }
+        .permalink.photo .content a:last-child{
+            margin-bottom:0;
+        }
+        /*********** post content ***********/
+        .post .title{
+            font-size:2em;
+            font-weight:bold;
+            line-height:1.2em;
+            margin-top:-0.1em;/*to align with photo posts*/
+            margin-bottom:1em;
+        }
+        .content{
+            font-size:1em;
+            line-height:1.5em;
+        }
+        .content p{
+            margin-bottom:1em;
+        }
+        .content blockquote{
+            margin-bottom:1em;
+        }
+        .chat ul li{
+            margin-bottom:0.5em;
+        }
+        .chat .label{
+            margin-right:0.2em;
+        }
+        .index.audio>iframe, .index.video>iframe{
+            height:45vh;
+        }
+        .caption{
+            font-weight:bold;
+        }
+        .asker a{
+            color:{AccentColor};
+        }
+        .asker{
+            font-weight:bold;
+            margin-bottom:0.7em;
+        }
+        .question{
+            margin-bottom:0.9em;    
+        }
+        blockquote{
+            padding-left:1.5em;
+            border-left:1px solid {color:Font color};
+        }
+        .tumblr_blog{
+            color:{AccentColor};
+        }
+        .contentSource a{
+            color:{AccentColor};
+            font-size:0.9em;
+        }
+        
+        /******list style******/
+        .content ul{
+            margin-bottom:0.7em;
+        }
+        .content ol{
+            margin-bottom:0.7em;
+        }
+        .chat .content ul li{
+            margin-left:0;
+            list-style-type:none;
+        }
+        .content ul li{
+            margin-left:1.5em;
+            list-style-type:disc;
+        }
+        .content ol li{
+            margin-left:1.5em;
+            list-style-type:decimal;
+        }
+        .content h1{
+            font-size:1.4em;
+            line-height:1.6em;
+            margin-bottom:0.7em;
+            font-weight:bold;
+        }
+        .content h2{
+            font-size:1.3em;
+            line-height:1.6em;
+            margin-bottom:0.7em;
+            font-weight:bold;
+        }
+        .content h3{
+            font-size:1.2em;
+            line-height:1.6em;
+            margin-bottom:0.7em;
+            font-weight:bold;
+        }
+        
+        /***********post meta***********/
+        #meta{
+            float:right;
+            margin-right:7vw;
+            width:16vw;
+            margin-top:-0.25em;
+        }
+        #meta > li{
+            list-style-type:none;
+            padding-bottom:1.2em;
+            text-align:center;
+        }
+        #caption{
+            line-height:1.5em;
+        }
+        #notesBlock{
+        }
+        #count{
+            font-weight:bold;
+            margin-bottom:0.7em;
+        }
+        ol.notes{
+            list-style-type:none;
+        }
+        ol.notes li{
+            text-align:center;
+            font-weight:normal;
+            line-height:1.5em;
+            padding-bottom: 0.5em;
+            font-size:0.9em;
+        }
+        ol.notes li a{
+            color:{AccentColor};
+        }
+        .notes img{
+            display:none;
+        }
+        ol.notes li.note .answer_content {
+            font-weight: normal;
+        }
+
+        ol.notes li.note blockquote {
+            border-left:none;
+        }
+        ol.notes li.note blockquote a{
+            color:{color:Font color};
+        }
+        /******** infinite scroll message box ******/
+        #loadMsgWrap{
+            text-align:center;
+            position:fixed;
+            top:0;
+            width:100vw;
+        }
+        #loadMsg{
+            background-color:rgba(0,0,0,0.2);
+            color:white;
+            line-height: 2vh;
+            vertical-align: bottom;
+            padding: 0.5vh 5vw;
+            display: inline;
+        }
+        img{
+            border:0 none;
+        }
+        {CustomCSS}
+        </style>
+    </head>
+    <body>
+		<!-- tabs and pagination -->
+        {block:IndexPage}
+		<div id="accentbar"></div>
+        <div class="tab left index">
+            <div><i class="fa fa-caret-left"></i></div>
+        </div>
+        <div class="tab right index">
+            <div><i class="fa fa-caret-right"></i></div>
+        </div>
+        <div id="loadMsgWrap"><div id="loadMsg"></div></div>
+        {/block:IndexPage}
+
+        {block:PermalinkPagination}
+        {block:NextPost}
+        <div class="tab left permalink">
+            <div onclick="window.location.href='{NextPost}';" title="Next Page">
+                <i class="fa fa-caret-left"></i>
+            </div>
+        </div>
+        {/block:NextPost}
+        
+        {block:PreviousPost}
+        <div class="tab right permalink">
+            <div onclick="window.location.href='{PreviousPost}';" title="Previous Page">
+                <i class="fa fa-caret-right"></i>
+            </div>
+        </div>
+        {/block:PreviousPost}
+        {/block:PermalinkPagination}
+        
+        <!-- header -->
+        <header class="{block:PermalinkPage}permalink{/block:PermalinkPage} {block:IndexPage}index{block:IndexPage}">
+            <div id="title">
+                <a href="/">{Title}</a>
+                {block:TagPage}
+                <a id="tagTitle" href="{TagURL}">#{Tag}</a>
+                {/block:TagPage}
+            </div>
+            
+            {block:IfShowPages}
+            <ul id="pages">
+                {block:HasPages}
+                {block:Pages}
+                <li><a href="{URL}">{Label}</a></li>
+                {/block:Pages}
+                {/block:HasPages}
+                {block:AskEnabled}
+                <li><a href="/ask">{AskLabel}</a></li>
+                {/block:AskEnabled}
+                {block:ArchiveEnabled}
+                <li><a href="/archive">{ArchiveLabel}</a></li>
+                {/block:ArchiveEnabled}
+                {block:SubmissionsEnabled}
+                <li><a href="/submit">{SubmitLabel}</a></li>
+                {/block:SubmissionsEnabled}
+            </ul>
+            {/block:IfShowPages}
+            <div class="clearFix"></div>
+        </header>
+        
+        <!-- main -->
+        <main id="main" class="{block:PermalinkPage}permalink{/block:PermalinkPage} {block:IndexPage}index{block:IndexPage}">
+            {block:Posts}
+            <article class="post {postType} {block:PermalinkPage}permalink{/block:PermalinkPage} {block:IndexPage}index{block:IndexPage}" id="{postID}">
+                
+                {block:IfShowCaption}
+                {block:IndexPage}
+                {block:Photo}
+                {block:Caption}
+                <div class="mask {postType}">
+                    <div class="caption"><a href="{Permalink}">{Caption}</a></div>
+                </div>
+                {/block:Caption}
+                {/block:Photo}
+                
+                {block:Photoset}
+                {block:Caption}
+                <div class="mask {postType}" >
+                    <div class="caption"><a href="{Permalink}">{Caption}</a></div>
+                </div>
+                {/block:Caption}
+                {/block:Photoset}
+                {/block:IndexPage}
+                {/block:IfShowCaption}
+                
+                <div class="content">
+                    {block:Photo}
+                    {LinkOpenTag}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>{LinkCloseTag}
+                    {/block:Photo}
+                    
+                    {block:Photoset}
+                    {block:Photos}
+                    <a href="{Permalink}"><img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/></a>
+                    {/block:Photos}
+                    {/block:Photoset}
+                    
+                    {block:Video}{VideoEmbed-700}{/block:Video}
+                    
+                    {block:Audio}
+                    {block:AudioEmbed}{AudioEmbed-400}{/block:AudioEmbed}
+                    {/block:Audio}
+                </div>
+        
+                <div class="content" {block:Photo}style="display:none;"{/block:Photo}{block:Photoset}style="display:none;"{/block:Photoset}>
+                    {block:Text}
+                    <div class="title"><a href="{Permalink}">{Title}</a></div>
+                    <div class="content">{Body}</div>
+                    {/block:Text}
+                    
+                    {block:Quote}
+                    <div class="title"><a href="{Permalink}">"{Quote}"</a></div>
+                    {block:Source}
+                    <div class="source">-&nbsp;&nbsp;{Source}</div>
+                    {/block:Source}
+                    {/block:Quote}
+                    
+                    {block:Link}
+                    <div class="title"><a href="{URL}">{Name}</a></div>
+                    {block:Description}
+                    <div class="description">{Description}</div>
+                    {/block:Description}
+                    {/block:Link}
+                    
+                    {block:Chat}
+                    {block:Title}
+                    <div class="title"><a href="{Permalink}">{Title}</a></div>
+                    {/block:Title}
+                    <ul>
+                        {block:Lines}
+                        <li>
+                            {block:Label}
+                            <span class="label">{Label}</span>
+                            {/block:Label}
+                            <span class="line">{Line}</span>
+                        </li>
+                        {/block:Lines}
+                    </ul>
+                    {/block:Chat}
+                    
+                    {block:Answer}
+                    <div class="asker">{Asker} asked:</div>
+                    <blockquote class="question">{Question}</blockquote>
+                    <div class="reply">{Answer}</div>
+                    {/block:Answer}
+                    
+                    
+                    {block:ContentSource}
+                    <div class="contentSource"
+                    {block:IndexPage}style="display:none"{/block:IndexPage}>
+                    <a href="{SourceURL}">{lang:Source}: {SourceTitle}</a>
+                    </div>
+                    {/block:ContentSource}
+                </div>
+            </article>
+            
+            <!-- post meta -->
+            {block:PermalinkPage}
+            <ul id="meta">
+                {block:Caption}
+                <li id="caption">{Caption}</li>
+                {/block:Caption}
+                
+                {block:Date}
+                <li id="date">{TimeAgo}</li>
+                {/block:Date}
+                
+                {block:HasTags}
+                {block:Tags}
+                <li id="tag"><a href="{TagURL}">#{Tag}</a></li>
+                {/block:Tags}
+                {/block:HasTags}
+                
+                {block:IfShowNotes}
+                <li id="notesBlock">
+                    {block:NoteCount}
+                    <div id="count">{NoteCountWithLabel}</div>
+                    <div id="notes">{PostNotes-16}</div>
+                    {/block:NoteCount}
+                </li>
+                {/block:IfShowNotes}
+            </ul>
+            <div class="clearFix"></div>
+            {/block:PermalinkPage}
+            {/block:Posts}
+        </main>
+        
+        <!-- footer -->
+        <footer class="{block:PermalinkPage}permalink{/block:PermalinkPage} {block:IndexPage}index{block:IndexPage}">
+            <div class="left">
+                {block:ShowDescription}
+                <div id="description">{Description}</div>                    
+                {/block:ShowDescription}
+                
+                <div id="copyright">{text:Copyright}</div>
+            </div>
+            
+            {block:IfShowSocialIcons}
+            <ul id="social" class="right">
+                <li><a href="http://www.facebook.com/{text:Facebook ID}">
+                        <i class="fa fa-facebook"></i></a>
+                </li>
+                <li><a href="http://www.twitter.com/{text:Twitter ID}">
+                        <i class="fa fa-twitter"></i></a>
+                </li>
+                <li><a href="http://www.instagram.com/{text:Instagram ID}">
+                        <i class="fa fa-instagram"></i></a>
+                </li>
+                <li><a href="http://www.pinterest.com/{text:Pinterest ID}">
+                        <i class="fa fa-pinterest"></i></a>
+                </li>
+                <li><a href="http://www.linkedin.com/in/{text:Linkedin ID}">
+                        <i class="fa fa-linkedin-square"></i></a>
+                </li>
+                <li><a href="http://www.vimeo.com/{text:Vimeo ID}">
+                        <i class="fa fa-vimeo-square"></i></a>
+                </li>
+                <li><a href="http://www.behance.net/{text:Behance ID}">
+                        <i class="fa fa-behance"></i></a>
+                </li>
+                <li><a href="http://www.dribbble.com/{text:Dribbble ID}">
+                        <i class="fa fa-dribbble"></i></a>
+                </li>
+            </ul>
+            {/block:IfShowSocialIcons}
+            <div class="clearFix"></div>
+        </footer>
+        
+        <!-- page initialization and infinite scroll -->
+        <script>
+            (function($) {
+                //animation timers
+                var timer = {},
+                    FADE_TIMER = 300;
+                
+                //hide unassigned social icons
+                {block:IfShowSocialIcons}
+                function hideSocialNull() {
+                    var arr = $("#social > li"),
+                        len = arr.length,
+                        i = 0,
+                        patt0 = /(\s|\.)/g,
+                        patt1 = /http:\/\/www.\w+.(com|net)\//,
+                        patt2 = /\w+\//;
+                    for (i; i < len; i += 1){
+                        var li = arr[i];
+                        var link = $(li).children("a")[0].href;
+                        try {
+                            var name = link.replace(patt0, "").toString().replace(patt1,"").toString();
+                            if (name.match(/\w*\/\w*/) !== null){
+                                name = name.replace(patt2,"").toString();
+                            }
+                            if (name == ""){
+                                $(li).hide();
+                            }
+                        } catch(e) {
+                            $(li).hide();
+                            continue;
+                        }
+                    }
+                };
+                hideSocialNull();
+                {/block:IfShowSocialIcons}
+                
+
+                //tabs hover effect
+                function delayTillLast(id, fn, wait) {
+                    if (timer[id]) {
+                        window.clearTimeout(timer[id]);
+                        delete timer[id];
+                    }
+                    return timer[id] = window.setTimeout(function() {
+                        fn();
+                        delete timer[id];
+                    }, wait);
+                }
+                function showTabs() {
+                    delayTillLast('hoverTabs', function() {
+                        $(".tab > div").fadeIn();
+                    }, FADE_TIMER);
+                }
+                function hideTabs() {
+                    delayTillLast('hoverTabs', function() {
+                        $(".tab > div").fadeOut();
+                    }, FADE_TIMER);
+                }
+
+                $(".tab").hover(showTabs, hideTabs);
+                
+                $("#loadMsg").hide();
+                
+                {block:IndexPage}
+                //responsive horizontal scroll  
+                //define module
+                rhs = (function(wrapperID,articleClass,msgBoxID) {
+                    var wrapper = $("#" + wrapperID)[0],
+                        msgBox = $("#" + msgBoxID)[0],
+                        stat = [0, 0],
+                        lastWrapperWidth = 0,
+                        currentURL = window.location.href,
+
+                        MSG = ["Loading...","No older content.","Error."],
+                        FADE_TIMER = 300,
+                        MSG_FADE_OUT_TIMER = 1000,
+                        SCROLL_TIMER = 500; 
+
+                    getScrollPosition = function(dir) {
+                        var articles = $("." + articleClass),
+                            len = articles.length,
+                            pageOffset = window.pageXOffset,
+                            wrapperOffset = $(wrapper).offset().left,
+                            articleOffset = 0,
+                            firstArticle = articles[0],
+                            position = 0,
+                            i = 0;
+
+                        for (i; i < len; i += 1) {//find the first article
+                            articleOffset = $(articles[i]).offset().left;
+                            if (articleOffset + $(articles[i]).width() >= pageOffset + wrapperOffset){
+                                firstArticle = articles[i];
+                                break;
+                            }
+                        }
+                        
+                        if (dir == -1){//previous
+                            if (i > 0){
+                                if ( articleOffset - pageOffset <= 0 ){
+                                    position = articleOffset;
+                                } else {
+                                    position = $(firstArticle).prev().offset().left;
+                                }
+                            }
+                        } else {//next
+                            if (i < len - 1){
+                                position = $(firstArticle).next().offset().left;
+                            }
+                        }
+                        return position - wrapperOffset;
+                    };
+
+                    xHandler = function(){
+                        var wrapperWidth = wrapper.offsetWidth;
+                        var xOffset = window.pageXOffset;
+                        var x = xOffset + window.innerWidth;
+                        if (x >= wrapperWidth) {
+                            if (wrapperWidth != lastWrapperWidth) {
+                                $(msgBox).html("");
+                                $(msgBox).fadeIn(FADE_TIMER);
+                                $(msgBox).html(MSG[0]);
+                                loadNextPage();
+                                lastWrapperWidth = wrapperWidth;
+                            }
+                        }
+                    };
+
+                    loadNextPage = function(){
+                        var nextURL = updateURL(currentURL, 1);
+                        $.ajax({
+                            type: "POST",
+                            url: nextURL,
+                            success: function(html) {
+                                var newArticles = $(html).find("." + articleClass);
+                                var newLen = newArticles.length;
+                                if (newLen === 0) {
+                                    $(msgBox).html(MSG[1]);
+                                } else {
+                                    $(wrapper).append(newArticles);
+                                }
+                                currentURL = nextURL;
+                            },
+                            error: function() {
+                                $(msgBox).html(MSG[2]);
+                            }
+                        }).done(function() {
+                            $(msgBox).fadeOut(MSG_FADE_OUT_TIMER);
+                        });
+                    };
+
+                    updateURL = function(cURL,jumpPage) {
+                        //remove "/" in the end
+                        cURL = cURL.replace(/\/$/,"");
+                        //end with "page/number"
+                        var patt1 = /\/page\/\d+$/;
+                        //end with "number"
+                        var patt2 = /\d+$/;
+                        if (!patt1.test(cURL)) {
+                            cURL = cURL + "/page/1";
+                            var cPage = 1;
+                        } else {
+                            var cPage = parseInt(cURL.match(patt2));
+                        }
+                        return cURL.replace(patt2, cPage + jumpPage);
+                    }
+
+                    return {//return two functions to bind with the tab buttons
+                        nav: function(dir) {
+                            var position = getScrollPosition(dir);
+                            $("html, body").animate({scrollLeft: position},SCROLL_TIMER);
+                        },
+                        xHandler: xHandler
+                    };
+                }("main","post","loadMsg"));
+                
+                
+                //event handlers
+                $(".tab.left.index > div").click(function(){
+                    rhs.nav(-1);
+                });
+                $(".tab.right.index > div").click(function(){
+                    rhs.nav(1);
+                });
+                window.onscroll = rhs.xHandler;
+                
+                {/block:IndexPage}
+            })(jQuery);
+            
+            //Google analytics
+            {block:IfGoogleAnalyticsID}
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', '{text:Google Analytics ID}', 'tumblr.com');
+            ga('send', 'pageview');            
+            {/block:IfGoogleAnalyticsID}  
+            
+        </script>
+    </body>
+</html>
